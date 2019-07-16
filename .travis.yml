@@ -1,16 +1,25 @@
 language: node_js
 node_js:
-  - ""
+  - "9"
 dist: trusty
-sudo: required
+sudo: false
 
 branches:
   only:
     - master
 
-before_script:
-  - npm install -g @angular/cli
+cache:
+  directories:
+    - node_modules
 
 script:
   - ng lint
   - ng build --prod --base-href https://lucastephan.github.io/TravisCIAngularTest/
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  local_dir: dist/TravisCIAngularTest
+  on:
+    branch: master
